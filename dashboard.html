@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+   <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+    
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="css/style.css"> 
+
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <style type="text/css">
+
+        #chartdiv {
+          width: 100%;
+          height: 500px;
+        }
+        .highcharts-exporting-group, .highcharts-title, .highcharts-credits{
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+      <div class="wrapper" id="wrapperid">
+        <!-- Sidebar  -->
+        <nav class="mt-5" id="sidebar">
+            <ul class="list-unstyled components">
+                
+                <li class="active">
+                    <a href="#home">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#live">Track Live</a>
+                </li>
+                <li>
+                    <a href="#data">Analysis</a>
+                </li>
+                
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-sm fixed-top shadow py-0" style="background-color: #6D7FCC;">
+                <button type="button" id="sidebarCollapse" class="btn shadow" style="background-color: #6D7FCC; color: #fff; border: 1px solid #fff;">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>&nbsp; &nbsp;
+              <a class="navbar-brand text-white" href="#">Company Name</a>
+              <a class="ml-auto p-2" href="#"><button class="btn btn-md logout_btn" data-toggle="modal" data-target="#logout_modal" style="background-color: #fff;"><b><span>Logout&nbsp; </span><i class='fas fa-power-off'></i></b></button></a>
+            </nav>
+            <span class="" id="home"></span>
+            <!-- The Modal -->
+              <div class="modal fade" id="logout_modal">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                  <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      Are you sure! You want to Logout?
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer py-2 justify-content-center">
+                        <button type="button" class="btn btn_clr px-4" data-dismiss="modal" onclick="window.location.href='index.html'">Ok</button>
+                        <button type="button" class="btn btn_clr px-4" data-dismiss="modal">Close</button>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card">
+                                <div class="card-header justify-content-center">
+                                    Temperature
+                                </div>
+                                <div class="card-body p-0 mx-auto">
+                                    <div class="img-fluid" id="gauge_1" style="min-width: 200px; max-width: 400px; height: 200px; margin: 0 auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card">
+                                <div class="card-header justify-content-center">
+                                    Speed
+                                </div>
+                                <div class="card-body p-0 mx-auto">
+                                    <div class="img-fluid" id="gauge_2" style="min-width: 200px; max-width: 400px; height: 200px; margin: 0 auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card">
+                                <div class="card-header justify-content-center">
+                                    Humidity
+                                </div>
+                                <div class="card-body p-0 mx-auto">
+                                    <div class="img-fluid" id="gauge_3" style="min-width: 200px; max-width: 400px; height: 200px; margin: 0 auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card">
+                                <div class="card-header justify-content-center">
+                                    Load
+                                </div>
+                                <div class="card-body p-0 mx-auto">
+                                    <div class="img-fluid" id="gauge_4" style="min-width: 200px; max-width: 400px; height: 200px; margin: 0 auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="live"></span>
+                </div>
+
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    Truck Location
+                                </div>
+                                <div class="card-body">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.2507709421047!2d77.70938671435357!3d12.955798818731385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae136b8d0c6f87%3A0x70c32b25c0d01205!2sAnsara+Business+Solutions+P+Ltd!5e0!3m2!1sen!2sin!4v1561638437010!5m2!1sen!2sin" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="data"></span>
+                </div>
+
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    Datatable
+                                </div>
+                                <div class="card-body">
+                                    <div id="chartdiv"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            
+            
+        </div>
+    </div>
+
+
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Sidebar -->
+    <script type="text/javascript">
+         
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+
+
+
+
+
+    <!-- Gauge -->
+    <script type="text/javascript">
+        Highcharts.chart('gauge_1', {
+
+          chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
+
+          pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#FFF'],
+                  [1, '#333']
+                ]
+              },
+              borderWidth: 0,
+              outerRadius: '109%'
+            }, {
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#333'],
+                  [1, '#FFF']
+                ]
+              },
+              borderWidth: 1,
+              outerRadius: '107%'
+            }, {
+              // default background
+            }, {
+              backgroundColor: '#DDD',
+              borderWidth: 0,
+              outerRadius: '105%',
+              innerRadius: '103%'
+            }]
+          },
+
+          // the value axis
+          yAxis: {
+            min: -40,
+            max: 40,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+              step: 2,
+              rotation: 'auto'
+            },
+            title: {
+              text: 'km/h'
+            },
+            plotBands: [{
+              from: -40,
+              to: -20,
+              color: '#55BF3B' // green
+            }, {
+              from: -20,
+              to: 20,
+              color: '#DDDF0D' // yellow
+            }, {
+              from: 20,
+              to: 40,
+              color: '#DF5353' // red
+            }]
+          },
+
+          series: [{
+            name: 'Speed',
+            data: [80],
+            tooltip: {
+              valueSuffix: ' km/h'
+            }
+          }]
+
+        },
+        // Add some life
+        function (chart) {
+          if (!chart.renderer.forExport) {
+            setInterval(function () {
+              var point = chart.series[0].points[0],
+                newVal,
+                inc = Math.round((Math.random() - 0.5) * 20);
+
+              newVal = point.y + inc;
+              if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+              }
+
+              point.update(newVal);
+
+            }, 3000);
+          }
+        });
+
+        Highcharts.chart('gauge_2', {
+
+          chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
+
+          pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#FFF'],
+                  [1, '#333']
+                ]
+              },
+              borderWidth: 0,
+              outerRadius: '109%'
+            }, {
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#333'],
+                  [1, '#FFF']
+                ]
+              },
+              borderWidth: 1,
+              outerRadius: '107%'
+            }, {
+              // default background
+            }, {
+              backgroundColor: '#DDD',
+              borderWidth: 0,
+              outerRadius: '105%',
+              innerRadius: '103%'
+            }]
+          },
+
+          // the value axis
+          yAxis: {
+            min: -40,
+            max: 40,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+              step: 2,
+              rotation: 'auto'
+            },
+            title: {
+              text: 'km/h'
+            },
+            plotBands: [{
+              from: -40,
+              to: -20,
+              color: '#55BF3B' // green
+            }, {
+              from: -20,
+              to: 20,
+              color: '#DDDF0D' // yellow
+            }, {
+              from: 20,
+              to: 40,
+              color: '#DF5353' // red
+            }]
+          },
+
+          series: [{
+            name: 'Speed',
+            data: [80],
+            tooltip: {
+              valueSuffix: ' km/h'
+            }
+          }]
+
+        },
+        // Add some life
+        function (chart) {
+          if (!chart.renderer.forExport) {
+            setInterval(function () {
+              var point = chart.series[0].points[0],
+                newVal,
+                inc = Math.round((Math.random() - 0.5) * 20);
+
+              newVal = point.y + inc;
+              if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+              }
+
+              point.update(newVal);
+
+            }, 3000);
+          }
+        });
+
+        Highcharts.chart('gauge_3', {
+
+          chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
+
+          pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#FFF'],
+                  [1, '#333']
+                ]
+              },
+              borderWidth: 0,
+              outerRadius: '109%'
+            }, {
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#333'],
+                  [1, '#FFF']
+                ]
+              },
+              borderWidth: 1,
+              outerRadius: '107%'
+            }, {
+              // default background
+            }, {
+              backgroundColor: '#DDD',
+              borderWidth: 0,
+              outerRadius: '105%',
+              innerRadius: '103%'
+            }]
+          },
+
+          // the value axis
+          yAxis: {
+            min: -40,
+            max: 40,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+              step: 2,
+              rotation: 'auto'
+            },
+            title: {
+              text: 'km/h'
+            },
+            plotBands: [{
+              from: -40,
+              to: -20,
+              color: '#55BF3B' // green
+            }, {
+              from: -20,
+              to: 20,
+              color: '#DDDF0D' // yellow
+            }, {
+              from: 20,
+              to: 40,
+              color: '#DF5353' // red
+            }]
+          },
+
+          series: [{
+            name: 'Speed',
+            data: [80],
+            tooltip: {
+              valueSuffix: ' km/h'
+            }
+          }]
+
+        },
+        // Add some life
+        function (chart) {
+          if (!chart.renderer.forExport) {
+            setInterval(function () {
+              var point = chart.series[0].points[0],
+                newVal,
+                inc = Math.round((Math.random() - 0.5) * 20);
+
+              newVal = point.y + inc;
+              if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+              }
+
+              point.update(newVal);
+
+            }, 3000);
+          }
+        });
+
+
+        Highcharts.chart('gauge_4', {
+
+          chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
+
+          pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#FFF'],
+                  [1, '#333']
+                ]
+              },
+              borderWidth: 0,
+              outerRadius: '109%'
+            }, {
+              backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, '#333'],
+                  [1, '#FFF']
+                ]
+              },
+              borderWidth: 1,
+              outerRadius: '107%'
+            }, {
+              // default background
+            }, {
+              backgroundColor: '#DDD',
+              borderWidth: 0,
+              outerRadius: '105%',
+              innerRadius: '103%'
+            }]
+          },
+
+          // the value axis
+          yAxis: {
+            min: -40,
+            max: 40,
+
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+              step: 2,
+              rotation: 'auto'
+            },
+            title: {
+              text: 'km/h'
+            },
+            plotBands: [{
+              from: -40,
+              to: -20,
+              color: '#55BF3B' // green
+            }, {
+              from: -20,
+              to: 20,
+              color: '#DDDF0D' // yellow
+            }, {
+              from: 20,
+              to: 40,
+              color: '#DF5353' // red
+            }]
+          },
+
+          series: [{
+            name: 'Speed',
+            data: [80],
+            tooltip: {
+              valueSuffix: ' km/h'
+            }
+          }]
+
+        },
+        // Add some life
+        function (chart) {
+          if (!chart.renderer.forExport) {
+            setInterval(function () {
+              var point = chart.series[0].points[0],
+                newVal,
+                inc = Math.round((Math.random() - 0.5) * 20);
+
+              newVal = point.y + inc;
+              if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+              }
+
+              point.update(newVal);
+
+            }, 3000);
+          }
+        });
+    </script>
+
+
+    <!-- Chart code -->
+        <script type="text/javascript">
+        am4core.ready(function() {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+        chart.paddingRight = 20;
+
+        // Add data
+        chart.data = [{
+          "year": "0",
+          "value": 0
+        }, {
+          "year": "1",
+          "value": 30
+        }, {
+          "year": "2",
+          "value": -30
+        }, {
+          "year": "3",
+          "value": 20
+        }, {
+          "year": "4",
+          "value": 10
+        }, {
+          "year": "5",
+          "value": -5
+        }, {
+          "year": "6",
+          "value": 0
+        }, {
+          "year": "7",
+          "value": 30
+        }, {
+          "year": "8",
+          "value": 38
+        }, {
+          "year": "9",
+          "value": 15
+        }, {
+          "year": "10",
+          "value": 25
+        }, {
+          "year": "11",
+          "value": -10
+        }, {
+          "year": "12",
+          "value": 33
+        }, {
+          "year": "13",
+          "value": 0
+        }, {
+          "year": "14",
+          "value": -3
+        }, {
+          "year": "15",
+          "value": 34
+        }, {
+          "year": "16",
+          "value": -12
+        }, {
+          "year": "17",
+          "value": 0
+        }, {
+          "year": "18",
+          "value": 40
+        }, {
+          "year": "19",
+          "value": 20
+        }, {
+          "year": "20",
+          "value": 35
+        }, {
+          "year": "21",
+          "value": 0
+        }, {
+          "year": "22",
+          "value": -5
+        }, {
+          "year": "23",
+          "value": 8
+        }, {
+          "year": "24",
+          "value": 40
+        }];
+
+        // Create axes
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "year";
+        categoryAxis.renderer.minGridDistance = 50;
+        categoryAxis.renderer.grid.template.location = 0.5;
+        categoryAxis.startLocation = 0.5;
+        categoryAxis.endLocation = 0.5;
+
+        // Pre zoom
+        chart.events.on("datavalidated", function () {
+          categoryAxis.zoomToIndexes(Math.round(chart.data.length * 0.4), Math.round(chart.data.length * 0.55));
+        });
+
+        // Create value axis
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.baseValue = 0;
+
+        // Create series
+        var series = chart.series.push(new am4charts.LineSeries());
+        series.dataFields.valueY = "value";
+        series.dataFields.categoryX = "year";
+        series.strokeWidth = 2;
+        series.tensionX = 0.77;
+
+        var range = valueAxis.createSeriesRange(series);
+        range.value = 0;
+        range.endValue = 1000;
+        range.contents.stroke = am4core.color("#FF0000");
+        range.contents.fill = range.contents.stroke;
+
+        // Add scrollbar
+        var scrollbarX = new am4charts.XYChartScrollbar();
+        scrollbarX.series.push(series);
+        chart.scrollbarX = scrollbarX;
+
+        chart.cursor = new am4charts.XYCursor();
+
+        }); // end am4core.ready()
+        </script>
+
+
+
+
+</body>
+
+</html>
